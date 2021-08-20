@@ -13,7 +13,7 @@ public class Main {
         }
     }
     public static void main(String[] args) {
-        int[] sourceArray = new int[] {3, 15, -15, 35, -22, 55, 0};
+        int[] sourceArray = {3, 15, -15, 35, -22, 55, 0};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
         bubbleSort(bubbleArray);
         printArray(bubbleArray);
