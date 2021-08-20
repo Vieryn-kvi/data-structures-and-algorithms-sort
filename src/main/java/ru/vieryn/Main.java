@@ -16,23 +16,11 @@ public class Main {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
         bubbleSort(bubbleArray);
-        printArray(bubbleArray);
+        System.out.println(Arrays.toString(bubbleArray));
     }
     private static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;
-    }
-    private static void printArray(int[] arr) {
-        if (arr == null) {
-            System.out.println("null");
-            return;
-        }
-        System.out.print('[');
-        for (int i = 0; i < arr.length; i++) {
-            if (i != 0) System.out.print(", ");
-            System.out.print(arr[i]);
-        }
-        System.out.println(']');
     }
 }
