@@ -13,7 +13,7 @@ public class Main {
         }
     }
     private static void selectionSort(int[] arr) {
-        if (arr == null || arr.length == 0) return;
+        if (arr == null || arr.length <= 1) return;
         for (int lastUnsortedIndex = arr.length - 1; lastUnsortedIndex > 0; lastUnsortedIndex--) {
             int maxIndex = 0;
             int maxValue = arr[maxIndex];
