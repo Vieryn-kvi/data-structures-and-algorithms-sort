@@ -1,9 +1,13 @@
 package ru.vieryn;
 
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Main {
-    private static int[] gaps = {1, 8, 23, 77, 281, 1073, 4193, 16577, 65921, 262913, 1050113, 4197377, 16783361,
+    private static final int[] gaps = {1, 8, 23, 77, 281, 1073, 4193, 16577, 65921, 262913, 1050113, 4197377, 16783361,
             67121153, 268460033, 1073790977};
 
     private static void bubbleSort(int[] arr) {
@@ -71,24 +75,60 @@ public class Main {
             }
         }
     }
-    public static void main(String[] args) {
+    private static void mergeSort(int[] arr) throws ExecutionException, InterruptedException {
+        System.arraycopy(mergeSort(arr, 0, arr.length), 0, arr, 0, arr.length);
+    }
+    private static int[] mergeSort(int[] arr, int startInclusive, int endExclusive) throws ExecutionException, InterruptedException {
+        if (endExclusive - startInclusive == 1) return new int[] { arr[startInclusive] };
+        int mid = (startInclusive + endExclusive) / 2;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<int[]> leftFuture = executor.submit(() -> mergeSort(arr, startInclusive, mid));
+        int[] right = mergeSort(arr, mid, endExclusive);
+        int[] left = leftFuture.get();
+        executor.shutdown();
+        int[] result = new int[endExclusive - startInclusive];
+        int leftIndex = 0;
+        int rightIndex = 0;
+        for (int i = 0; i < result.length; i++) {
+            if (leftIndex == left.length) {
+                result[i] = right[rightIndex++];
+            } else if (rightIndex == right.length) {
+                result[i] = left[leftIndex++];
+            } else {
+                int leftValue = left[leftIndex];
+                int rightValue = right[rightIndex];
+                if (leftValue < rightValue) {
+                    result[i] = leftValue;
+                    leftIndex++;
+                } else {
+                    result[i] = rightValue;
+                    rightIndex++;
+                }
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] selectionArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] insertionArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] shellBubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] shellInsertionArray = Arrays.copyOf(sourceArray, sourceArray.length);
+        int[] mergeSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
 
         bubbleSort(bubbleArray);
         selectionSort(selectionArray);
         insertionSort(insertionArray);
         shellSwapSort(shellBubbleArray);
         shellInsertionSort(shellInsertionArray);
+        mergeSort(mergeSortArray);
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
         System.out.println(Arrays.toString(insertionArray));
         System.out.println(Arrays.toString(shellBubbleArray));
         System.out.println(Arrays.toString(shellInsertionArray));
+        System.out.println(Arrays.toString(mergeSortArray));
     }
     private static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
