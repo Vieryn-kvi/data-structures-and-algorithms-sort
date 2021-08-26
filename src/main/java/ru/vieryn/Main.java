@@ -97,7 +97,7 @@ public class Main {
             } else {
                 int leftValue = left[leftIndex];
                 int rightValue = right[rightIndex];
-                if (leftValue < rightValue) {
+                if (leftValue <= rightValue) {
                     result[i] = leftValue;
                     leftIndex++;
                 } else {
