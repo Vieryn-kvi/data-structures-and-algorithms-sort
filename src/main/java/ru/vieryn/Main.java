@@ -174,9 +174,20 @@ public class Main {
                 }
             }
         }
-        arr[greaterIndex] = pivot;
-        quickSort(arr, startInclude, greaterIndex);
-        quickSort(arr, greaterIndex + 1, endExclude);
+
+        final int midIndex = greaterIndex;
+        arr[midIndex] = pivot;
+
+        var thread = new Thread(() -> quickSort(arr, startInclude, midIndex));
+        thread.start();
+
+        quickSort(arr, midIndex + 1, endExclude);
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
