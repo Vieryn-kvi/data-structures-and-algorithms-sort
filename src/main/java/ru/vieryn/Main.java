@@ -157,7 +157,7 @@ public class Main {
         boolean findLess = true;
         while (greaterIndex != lessIndex) {
             if (findLess) {
-                int greaterValue = arr[greaterIndex];
+                final int greaterValue = arr[greaterIndex];
                 if (greaterValue < pivot) {
                     arr[lessIndex++] = greaterValue;
                     findLess = false;
@@ -165,7 +165,7 @@ public class Main {
                     greaterIndex--;
                 }
             } else {
-                int lessValue = arr[lessIndex];
+                final int lessValue = arr[lessIndex];
                 if (lessValue >= pivot) {
                     arr[greaterIndex--] = lessValue;
                     findLess = true;
