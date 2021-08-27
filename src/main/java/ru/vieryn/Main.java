@@ -108,6 +108,73 @@ public class Main {
         }
         return result;
     }
+    public static void quickSort(int[] arr){
+        if (arr == null) throw new IllegalArgumentException();
+        quickSort(arr, 0, arr.length);
+    }
+    private static void quickSort(int[] arr, int startInclude, int endExclude) {
+        if (endExclude - startInclude < 2) return;
+        if (endExclude - startInclude == 2) {
+            if (arr[startInclude + 1] < arr[startInclude]) {
+                final int tmp = arr[startInclude];
+                arr[startInclude] = arr[startInclude + 1];
+                arr[startInclude + 1] = tmp;
+            }
+            return;
+        }
+        {
+            final int midIndex = (endExclude + startInclude) / 2;
+            final int endIndex = endExclude - 1;
+
+            final int startValue = arr[startInclude];
+            final int midValue = arr[midIndex];
+            final int endValue = arr[endIndex];
+            if (startValue < midValue && startValue < endValue) {
+                if (midValue < endValue) {
+                    arr[startInclude] = midValue;
+                    arr[midIndex] = startValue;
+                } else {
+                    arr[startInclude] = endValue;
+                    arr[endIndex] = startValue;
+                }
+            } else if (startValue > midValue && startValue > endValue) {
+                if (midValue < endValue) {
+                    arr[startInclude] = endValue;
+                    arr[endIndex] = startValue;
+                } else {
+                    arr[startInclude] = midValue;
+                    arr[midIndex] = startValue;
+                }
+            }
+        }
+        final int pivot = arr[startInclude];
+
+        int lessIndex = startInclude;
+        int greaterIndex = endExclude - 1;
+        boolean findLess = true;
+        while (greaterIndex != lessIndex) {
+            if (findLess) {
+                int greaterValue = arr[greaterIndex];
+                if (greaterValue < pivot) {
+                    arr[lessIndex++] = greaterValue;
+                    findLess = false;
+                } else {
+                    greaterIndex--;
+                }
+            } else {
+                int lessValue = arr[lessIndex];
+                if (lessValue >= pivot) {
+                    arr[greaterIndex--] = lessValue;
+                    findLess = true;
+                } else {
+                    lessIndex++;
+                }
+            }
+        }
+        arr[greaterIndex] = pivot;
+        quickSort(arr, startInclude, greaterIndex);
+        quickSort(arr, greaterIndex + 1, endExclude);
+    }
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
@@ -116,6 +183,7 @@ public class Main {
         int[] shellBubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] shellInsertionArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] mergeSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
+        int[] quickSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
 
         bubbleSort(bubbleArray);
         selectionSort(selectionArray);
@@ -123,12 +191,14 @@ public class Main {
         shellSwapSort(shellBubbleArray);
         shellInsertionSort(shellInsertionArray);
         mergeSort(mergeSortArray);
+        quickSort(quickSortArray);
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
         System.out.println(Arrays.toString(insertionArray));
         System.out.println(Arrays.toString(shellBubbleArray));
         System.out.println(Arrays.toString(shellInsertionArray));
         System.out.println(Arrays.toString(mergeSortArray));
+        System.out.println(Arrays.toString(quickSortArray));
     }
     private static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
