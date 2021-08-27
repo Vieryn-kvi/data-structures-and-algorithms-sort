@@ -1,5 +1,7 @@
 package ru.vieryn;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -10,7 +12,7 @@ public class Main {
     private static final int[] gaps = {1, 8, 23, 77, 281, 1073, 4193, 16577, 65921, 262913, 1050113, 4197377, 16783361,
             67121153, 268460033, 1073790977};
 
-    private static void bubbleSort(int[] arr) {
+    private static void bubbleSort(int @NotNull [] arr) {
         for (int lastUnsortedIndex = arr.length - 1; lastUnsortedIndex > 0; lastUnsortedIndex--) {
             for (int i = 0; i < lastUnsortedIndex; i++) {
                 if (arr[i] > arr[i+1]) {
@@ -76,9 +78,10 @@ public class Main {
         }
     }
     private static void mergeSort(int[] arr) throws ExecutionException, InterruptedException {
+        if (arr == null) throw new IllegalArgumentException();
         System.arraycopy(mergeSort(arr, 0, arr.length), 0, arr, 0, arr.length);
     }
-    private static int[] mergeSort(int[] arr, int startInclusive, int endExclusive) throws ExecutionException, InterruptedException {
+    private static int @NotNull [] mergeSort(int[] arr, int startInclusive, int endExclusive) throws ExecutionException, InterruptedException {
         if (endExclusive - startInclusive == 1) return new int[] { arr[startInclusive] };
         int mid = (startInclusive + endExclusive) / 2;
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -200,7 +203,7 @@ public class Main {
         System.out.println(Arrays.toString(mergeSortArray));
         System.out.println(Arrays.toString(quickSortArray));
     }
-    private static void swap(int[] arr, int i, int j) {
+    private static void swap(int @NotNull [] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;
