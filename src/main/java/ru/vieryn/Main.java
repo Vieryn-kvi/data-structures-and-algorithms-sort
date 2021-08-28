@@ -189,6 +189,16 @@ public class Main {
             e.printStackTrace();
         }
     }
+    public static void countingSort(int[] arr, int min, int max) {
+        int[] counts = new int[max - min + 1];
+        for (int k : arr) counts[k - min]++;
+        int resultIndex = 0;
+        for (int i = 0; i < counts.length; i++) {
+            int currentCount = counts[i];
+            Arrays.fill(arr, resultIndex, resultIndex + currentCount, i + min);
+            resultIndex += currentCount;
+        }
+    }
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
@@ -199,6 +209,8 @@ public class Main {
         int[] mergeSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] quickSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
 
+        int[] countingSortArray = {1, 5, 6, 8, 2, 4, 4, 4, 9, 10, 1, 6, 10, 5};
+
         bubbleSort(bubbleArray);
         selectionSort(selectionArray);
         insertionSort(insertionArray);
@@ -206,6 +218,8 @@ public class Main {
         shellInsertionSort(shellInsertionArray);
         mergeSort(mergeSortArray);
         quickSort(quickSortArray);
+        countingSort(countingSortArray, 1, 10);
+
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
         System.out.println(Arrays.toString(insertionArray));
@@ -213,6 +227,7 @@ public class Main {
         System.out.println(Arrays.toString(shellInsertionArray));
         System.out.println(Arrays.toString(mergeSortArray));
         System.out.println(Arrays.toString(quickSortArray));
+        System.out.println(Arrays.toString(countingSortArray));
     }
     private static void swap(int @NotNull [] arr, int i, int j) {
         int tmp = arr[i];
