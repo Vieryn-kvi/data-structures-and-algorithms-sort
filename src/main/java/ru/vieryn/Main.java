@@ -199,6 +199,24 @@ public class Main {
             resultIndex += currentCount;
         }
     }
+    private static int getCountPosition(int item, int radix, int position) {
+        for (int i = 0; i < position; i++) item /= radix;
+        return radix + item % radix - 1;
+    }
+    public static void radixSort(int[] arr, int radix, int width) {
+        for (int position = 0; position < width; position++) {
+            int[] counts = new int[2 * radix - 1];
+            for (int value : arr) counts[getCountPosition(value, radix, position)]++;
+            for (int i = 0, sum = 0; i < counts.length && sum < arr.length; i++) counts[i] = (sum += counts[i]);
+            int[] tempArr = new int[arr.length];
+            System.arraycopy(arr, 0, tempArr, 0, arr.length);
+            for(int i = tempArr.length - 1; i >= 0; i--) {
+                int value = tempArr[i];
+                int countIndex = getCountPosition(value, radix, position);
+                arr[--counts[countIndex]] = value;
+            }
+        }
+    }
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
@@ -210,6 +228,7 @@ public class Main {
         int[] quickSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
 
         int[] countingSortArray = {1, 5, 6, 8, 2, 4, 4, 4, 9, 10, 1, 6, 10, 5};
+        int[] radixSortArray = {234, -12, 0, 564, -12, 12, 278, 912, -563, 713};
 
         bubbleSort(bubbleArray);
         selectionSort(selectionArray);
@@ -219,6 +238,7 @@ public class Main {
         mergeSort(mergeSortArray);
         quickSort(quickSortArray);
         countingSort(countingSortArray, 1, 10);
+        radixSort(radixSortArray, 6, 4);
 
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
@@ -228,6 +248,7 @@ public class Main {
         System.out.println(Arrays.toString(mergeSortArray));
         System.out.println(Arrays.toString(quickSortArray));
         System.out.println(Arrays.toString(countingSortArray));
+        System.out.println(Arrays.toString(radixSortArray));
     }
     private static void swap(int @NotNull [] arr, int i, int j) {
         int tmp = arr[i];
