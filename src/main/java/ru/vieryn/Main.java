@@ -52,15 +52,15 @@ public class Main {
     }
     public static void insertionSortRecursive(int[] input) {
         if (input == null || input.length < 2) return;
-        insertionSortRecursive(input, 1);
+        insertionSortRecursive(input, input.length);
     }
-    private static void insertionSortRecursive(int @NotNull [] input, int firstUnsortedIndex) {
-        if (firstUnsortedIndex == input.length) return;
-        int current = input[firstUnsortedIndex];
-        int i = firstUnsortedIndex;
+    private static void insertionSortRecursive(int @NotNull [] input, int itemsToSort) {
+        if (itemsToSort < 2) return;
+        insertionSortRecursive(input, itemsToSort - 1);
+        int i = itemsToSort - 1;
+        int current = input[i];
         while (i > 0 && input[i - 1] > current) input[i] = input[--i];
         input[i] = current;
-        insertionSortRecursive(input, firstUnsortedIndex + 1);
     }
     private static void shellSwapSort(int[] arr) {
         int n;
