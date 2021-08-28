@@ -245,7 +245,7 @@ public class Main {
         int tempIndex = 0;
 
         while (leftIndex < mid && rightIndex < endExclude) {
-            tempArray[tempIndex++] = input[leftIndex] > input[rightIndex]? input[leftIndex++] : input[rightIndex++];
+            tempArray[tempIndex++] = input[leftIndex] >= input[rightIndex]? input[leftIndex++] : input[rightIndex++];
         }
         System.arraycopy(input, leftIndex, input, endExclude - mid + leftIndex, mid - leftIndex);
         System.arraycopy(tempArray, 0, input, startInclude, tempIndex);
