@@ -207,13 +207,13 @@ public class Main {
         for (int position = 0; position < width; position++) {
             int[] counts = new int[2 * radix - 1];
             for (int value : arr) counts[getCountPosition(value, radix, position)]++;
-            for (int i = 0, sum = 0; i < counts.length && sum < arr.length; i++) counts[i] = (sum += counts[i]);
-            int[] tempArr = new int[arr.length];
-            System.arraycopy(arr, 0, tempArr, 0, arr.length);
+            for (int i = 1, sum = counts[0]; i < counts.length && sum < arr.length; i++) {
+                counts[i] = (sum += counts[i]);
+            }
+            int[] tempArr = Arrays.copyOf(arr, arr.length);
             for(int i = tempArr.length - 1; i >= 0; i--) {
                 int value = tempArr[i];
-                int countIndex = getCountPosition(value, radix, position);
-                arr[--counts[countIndex]] = value;
+                arr[--counts[getCountPosition(value, radix, position)]] = value;
             }
         }
     }
