@@ -207,7 +207,7 @@ public class Main {
         for (int position = 0; position < width; position++) {
             int[] counts = new int[2 * radix - 1];
             for (int value : arr) counts[getCountPosition(value, radix, position)]++;
-            for (int i = 1, sum = counts[0]; i < counts.length && sum < arr.length; i++) {
+            for (int i = 1, sum = counts[0]; i < counts.length; i++) {
                 counts[i] = (sum += counts[i]);
             }
             int[] tempArr = Arrays.copyOf(arr, arr.length);
