@@ -50,6 +50,18 @@ public class Main {
             arr[i] = current;
         }
     }
+    public static void insertionSortRecursive(int[] input) {
+        if (input == null || input.length < 2) return;
+        insertionSortRecursive(input, 1);
+    }
+    private static void insertionSortRecursive(int @NotNull [] input, int firstUnsortedIndex) {
+        if (firstUnsortedIndex == input.length) return;
+        int current = input[firstUnsortedIndex];
+        int i = firstUnsortedIndex;
+        while (i > 0 && input[i - 1] > current) input[i] = input[--i];
+        input[i] = current;
+        insertionSortRecursive(input, firstUnsortedIndex + 1);
+    }
     private static void shellSwapSort(int[] arr) {
         int n;
         if (arr == null || (n = arr.length) <= 1) return;
@@ -261,6 +273,7 @@ public class Main {
         int[] mergeSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] quickSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] mergeSortReversedArray = Arrays.copyOf(sourceArray, sourceArray.length);
+        int[] insertionSortRecursiveArray = Arrays.copyOf(sourceArray, sourceArray.length);
 
         int[] countingSortArray = {1, 5, 6, 8, 2, 4, 4, 4, 9, 10, 1, 6, 10, 5};
         int[] radixSortArray = {234, -12, 0, 564, -12, 12, 278, 912, -563, 713};
@@ -275,6 +288,7 @@ public class Main {
         countingSort(countingSortArray, 1, 10);
         radixSort(radixSortArray, 6, 4);
         mergeSortReversed(mergeSortReversedArray);
+        insertionSortRecursive(insertionSortRecursiveArray);
 
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
@@ -286,6 +300,7 @@ public class Main {
         System.out.println(Arrays.toString(countingSortArray));
         System.out.println(Arrays.toString(radixSortArray));
         System.out.println(Arrays.toString(mergeSortReversedArray));
+        System.out.println(Arrays.toString(insertionSortRecursiveArray));
     }
     private static void swap(int @NotNull [] arr, int i, int j) {
         int tmp = arr[i];

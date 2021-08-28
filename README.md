@@ -9,3 +9,4 @@
 ### Counting sort
 ### Radix sort
 ### Challenge 1: reversed merge sort
+### Challenge 2: recursive insertion sort
