@@ -238,6 +238,7 @@ public class Main {
     }
 
     private static void mergeReversed(int[] input, int startInclude, int mid, int endExclude) {
+        if (input[mid - 1] >= input[mid]) return;
         int[] tempArray = new int[endExclude - startInclude];
         int leftIndex = startInclude;
         int rightIndex = mid;
