@@ -217,6 +217,39 @@ public class Main {
             }
         }
     }
+    public static void mergeSortReversed(int[] input) {
+        mergeSortReversed(input, 0, input.length);
+    }
+    private static void mergeSortReversed(int[] input, int startInclude, int endExclude) {
+        int length = endExclude - startInclude;
+        if (length < 2) return;
+        if (length == 2) {
+            if (input[startInclude] < input[startInclude + 1]) {
+                int tmp = input[startInclude];
+                input[startInclude] = input[startInclude + 1];
+                input[startInclude + 1] = tmp;
+            }
+            return;
+        }
+        int mid = (startInclude + endExclude) / 2;
+        mergeSortReversed(input, startInclude, mid);
+        mergeSortReversed(input, mid, endExclude);
+        mergeReversed(input, startInclude, mid, endExclude);
+    }
+
+    private static void mergeReversed(int[] input, int startInclude, int mid, int endExclude) {
+        int[] tempArray = new int[endExclude - startInclude];
+        int leftIndex = startInclude;
+        int rightIndex = mid;
+        int tempIndex = 0;
+
+        while (leftIndex < mid && rightIndex < endExclude) {
+            tempArray[tempIndex++] = input[leftIndex] > input[rightIndex]? input[leftIndex++] : input[rightIndex++];
+        }
+        System.arraycopy(input, leftIndex, input, endExclude - mid + leftIndex, mid - leftIndex);
+        System.arraycopy(tempArray, 0, input, startInclude, tempIndex);
+    }
+
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
@@ -226,6 +259,7 @@ public class Main {
         int[] shellInsertionArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] mergeSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] quickSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
+        int[] mergeSortReversedArray = Arrays.copyOf(sourceArray, sourceArray.length);
 
         int[] countingSortArray = {1, 5, 6, 8, 2, 4, 4, 4, 9, 10, 1, 6, 10, 5};
         int[] radixSortArray = {234, -12, 0, 564, -12, 12, 278, 912, -563, 713};
@@ -239,6 +273,7 @@ public class Main {
         quickSort(quickSortArray);
         countingSort(countingSortArray, 1, 10);
         radixSort(radixSortArray, 6, 4);
+        mergeSortReversed(mergeSortReversedArray);
 
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
@@ -249,6 +284,7 @@ public class Main {
         System.out.println(Arrays.toString(quickSortArray));
         System.out.println(Arrays.toString(countingSortArray));
         System.out.println(Arrays.toString(radixSortArray));
+        System.out.println(Arrays.toString(mergeSortReversedArray));
     }
     private static void swap(int @NotNull [] arr, int i, int j) {
         int tmp = arr[i];
