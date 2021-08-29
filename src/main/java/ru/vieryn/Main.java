@@ -263,6 +263,19 @@ public class Main {
         System.arraycopy(tempArray, 0, input, startInclude, tempIndex);
     }
 
+    public static void radixSortOfLatinLowercaseStrings(String[] input, int width) {
+        for (int position = width - 1; position >= 0; position--) {
+            int[] counts = new int['z' - 'a' + 1];
+            for (String item : input) counts[item.charAt(position) - 'a']++;
+            for (int i = 1, sum = counts[0]; i < counts.length; i++) counts[i] = (sum += counts[i]);
+            String[] temp = Arrays.copyOf(input, input.length);
+            for (int i = input.length - 1; i >= 0; i--) {
+                String item = temp[i];
+                input[--counts[item.charAt(position) - 'a']] = item;
+            }
+        }
+    }
+
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[] sourceArray = {3, 15, -15, 35, -22, 55, 0, 1, -7, 15};
         int[] bubbleArray = Arrays.copyOf(sourceArray, sourceArray.length);
@@ -274,6 +287,7 @@ public class Main {
         int[] quickSortArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] mergeSortReversedArray = Arrays.copyOf(sourceArray, sourceArray.length);
         int[] insertionSortRecursiveArray = Arrays.copyOf(sourceArray, sourceArray.length);
+        String[] radixSortOfLatinLowercaseStringsArray = {"bcdef", "dbaqc", "abcde", "omadd", "bbbbb"};
 
         int[] countingSortArray = {1, 5, 6, 8, 2, 4, 4, 4, 9, 10, 1, 6, 10, 5};
         int[] radixSortArray = {234, -12, 0, 564, -12, 12, 278, 912, -563, 713};
@@ -289,6 +303,7 @@ public class Main {
         radixSort(radixSortArray, 6, 4);
         mergeSortReversed(mergeSortReversedArray);
         insertionSortRecursive(insertionSortRecursiveArray);
+        radixSortOfLatinLowercaseStrings(radixSortOfLatinLowercaseStringsArray, 5);
 
         System.out.println(Arrays.toString(bubbleArray));
         System.out.println(Arrays.toString(selectionArray));
@@ -301,6 +316,7 @@ public class Main {
         System.out.println(Arrays.toString(radixSortArray));
         System.out.println(Arrays.toString(mergeSortReversedArray));
         System.out.println(Arrays.toString(insertionSortRecursiveArray));
+        System.out.println(Arrays.toString(radixSortOfLatinLowercaseStringsArray));
     }
     private static void swap(int @NotNull [] arr, int i, int j) {
         int tmp = arr[i];

@@ -10,3 +10,4 @@
 ### Radix sort
 ### Challenge 1: reversed merge sort
 ### Challenge 2: recursive insertion sort
+### Challenge 3: radix sort of lowercase latin strings 5 letter length
